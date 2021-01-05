@@ -49,6 +49,7 @@ $(".list-group").on("click", "p", function () {
     .text()
     .trim();
   console.log(text);
+  console.log(trim);
   var textInput = $("<textarea>")
     .addClass("form-control")
     .val(text);
