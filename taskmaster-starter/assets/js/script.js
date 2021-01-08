@@ -55,6 +55,7 @@ var auditTask = function (taskEl) {
     .trim();
 
   console.log(date);
+  console.log(taskEl);
 
   // convert to moment object at 5:00pm
   var time = moment(date, "L").set("hour", 17);
@@ -80,15 +81,19 @@ $(".card .list-group").sortable({
   tolerance: "pointer",
   helper: "clone",
   activate: function (event, ui) {
+    $(this).addClass("dropover");
     console.log(ui);
   },
   deactivate: function (event, ui) {
+    $(this).removeClass("dropover");
     console.log(ui);
   },
   over: function (event) {
+    $(event.target).addClass("dropover-active");
     console.log(event);
   },
   out: function (event) {
+    $(event.target).removeClass("dropover-active");
     console.log(event);
   },
   update: function () {
@@ -287,3 +292,9 @@ $("#remove-tasks").on("click", function () {
 
 // load tasks for the first time
 loadTasks();
+
+setInterval(function () {
+  $(".card .list-group-item").each(function (index, el) {
+    auditTask(el);
+  });
+}, (1000 * 60) * 30);
