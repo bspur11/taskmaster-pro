@@ -57,33 +57,33 @@ $(".list-group").on("click", "p", function () {
   textInput.trigger("focus");
 });
 
-$(".list-group").on("blur", "textarea", function () {
-  // get the textarea's current value/text
-  var text = $(this)
-    .val()
-    .trim();
+// $(".list-group").on("change", "textarea", function () {
+//   // get the textarea's current value/text
+//   var text = $(this)
+//     .val()
+//     .trim();
 
-  // get the parent ul's id attribute
-  var status = $(this)
-    .closest(".list-group")
-    .attr("id")
-    .replace("list-", "");
+//   // get the parent ul's id attribute
+//   var status = $(this)
+//     .closest(".list-group")
+//     .attr("id")
+//     .replace("list-", "");
 
-  // get the task's position in the list of other li elements
-  var index = $(this)
-    .closest(".list-group-item")
-    .index();
-  tasks[status][index].text = text;
-  saveTasks();
+//   // get the task's position in the list of other li elements
+//   var index = $(this)
+//     .closest(".list-group-item")
+//     .index();
+//   tasks[status][index].text = text;
+//   saveTasks();
 
-  //  recreate p element
-  var taskP = $("<p>")
-    .addClass("m-1")
-    .text(text);
+//   //  recreate p element
+//   var taskP = $("<p>")
+//     .addClass("m-1")
+//     .text(text);
 
-  // replace textarea with p element
-  $(this).replaceWith(taskP);
-});
+//   // replace textarea with p element
+//   $(this).replaceWith(taskP);
+// });
 
 // due date was clicked
 $(".list-group").on("click", "span", function () {
@@ -101,12 +101,29 @@ $(".list-group").on("click", "span", function () {
   // swap out elements
   $(this).replaceWith(dateInput);
 
+  // enable jquery ui datepicker
+  dateInput.datepicker({
+    minDate: 1,
+    onClose: function () {
+      // when calendar is closed, force a "change" event on the `dateInput`
+      $(this).trigger("change");
+    }
+  })
+
   // automatically focus on new element
   dateInput.trigger("focus");
+
 });
 
+// Date Picker Modal
+$("#modalDueDate").datepicker({
+  minDate: 1
+});
+
+
+
 // value of due date was changed
-$(".list-group").on("blur", "input[type='text']", function () {
+$(".list-group").on("change", "input[type='text']", function () {
   // get current text
   var date = $(this)
     .val()
